@@ -5,8 +5,8 @@ export const java = new Java();
 export const react = new React();
 
 export const cTeacher : Subjects.Teacher = {
-    firstName: "John",
-    lastName: "Doe",
+    firstName: "Guillaume",
+    lastName: "Salva",
     experienceTeachingC: 10
 }
 
