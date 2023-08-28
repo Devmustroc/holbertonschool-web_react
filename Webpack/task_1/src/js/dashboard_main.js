@@ -3,11 +3,8 @@ import debounce from 'lodash/debounce';
 
 $(document).ready(function() {
     const countParagraph = $('#count');
-
-    // Initial count value
     let count = 0;
 
-    // Function to update the counter and paragraph content
     function updateCounter() {
         count++;
         countParagraph.text(`${count} clicks on the button`);
