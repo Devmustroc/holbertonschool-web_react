@@ -20,3 +20,4 @@ describe("getLatestNotification", () => {
         expect(getLatestNotification()).toEqual("<strong>Urgent requirement</strong> - complete by EOD");
     });
 });
+
