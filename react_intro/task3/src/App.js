@@ -9,7 +9,7 @@ function App() {
       return (
           <>
               <div className="App-header">
-                  <img src="../public/HolbertonLogo.jpg" alt="logo" />
+                  <img src={require("./HolbertonLogo.jpg")}alt="logo" />
                   <p>School dashboard</p>
               </div>
               <div class="line"></div>
