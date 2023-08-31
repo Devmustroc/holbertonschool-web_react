@@ -8,7 +8,7 @@ const Notification = () => {
             <div className="Btn-notification">
                 <p>Here is the list of notifications</p>
                 <button aria-label='Close' onClick={() => console.log("Close button has been clicked")}>
-                    <img src={require("./close-icon.png")} />
+                    <img src="././close-icon.png" alt="close-icon" />
                 </button>
             </div>
             <ul>
