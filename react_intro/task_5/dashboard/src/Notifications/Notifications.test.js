@@ -3,6 +3,7 @@ import { shallow } from "enzyme";
 import Notifications from "./Notifications";
 
 
+
 describe("Notifications", () => {
     it("renders without crashing", () => {
         const wrapper = shallow(<Notifications />);
