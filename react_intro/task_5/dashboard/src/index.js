@@ -1,1 +1,1 @@
-console.log('Hello from dashboard');
+console.log('Hello, world!');
