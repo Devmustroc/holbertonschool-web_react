@@ -1,8 +1,9 @@
 import React from "react";
 import { getLatestNotification } from "../utils/utils";
 import closeIcon from "../assets/close-icon.png";
-import "./Notifications.css";
 import NotificationItem from "./NotificationItem";
+import "./Notifications.css";
+import './NotificationItem.css';
 
 
 const Notification = () => {
@@ -16,7 +17,7 @@ const Notification = () => {
                     <NotificationItem type="urgent" html={{ __html: getLatestNotification() }} />
                 </ul>
             </div>
-            <button aria-label="Close" onClick={() => console.log("Close button has been clicked")}>
+            <button className="btn-notification" aria-label="Close" onClick={() => console.log("Close button has been clicked")}>
                 <img src={closeIcon} alt="close-icon" />
             </button>
 
