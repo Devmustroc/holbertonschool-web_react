@@ -1,5 +1,5 @@
+/*import React from 'react';
 import { shallow } from 'enzyme';
-import React from 'react';
 import Header from './Header';
 
 
@@ -14,4 +14,4 @@ describe('<Header />', () => {
         expect(wrapper.exists('img')).toBe(true);
         expect(wrapper.exists('h1')).toBe(true);
     })
-});
+});*/

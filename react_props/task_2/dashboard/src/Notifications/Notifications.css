@@ -1,0 +1,43 @@
+.Notifications {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-family: "Serif", serif;
+    margin: 20px;
+    padding: 10px 0px 0px 0px;
+    border: 2px dashed red;
+}
+.Notifications-header {
+    display: flex;
+    flex-direction: column;
+}
+.Btn-notification {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.Btn-notification p {
+    margin: 0;
+    padding: 0;
+    font-size: 1.2rem;
+}
+button[aria-label='Close'] {
+    border-radius: 5px;
+    border: none;
+    background-color: transparent;
+}
+img {
+    width: 20px;
+    height: 20px;
+}
+li[data-priority="default"] {
+    color: blue;
+}
+li[data-priority="urgent"] {
+    color: red;
+}
+li {
+    color: red;
+    font-bold: true;
+}
