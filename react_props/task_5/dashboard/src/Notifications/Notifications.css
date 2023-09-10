@@ -1,0 +1,40 @@
+:root {
+    --primar-color: #E11D3F;
+}
+.notification-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: calc(40% - 2rem);
+    height: 50%;
+    padding: 1rem;
+}
+
+.Notifications {
+    position: relative;
+    border: 2px dashed var(--primar-color);
+    margin: 1rem;
+    padding: 1rem;
+}
+.menuItem {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1rem;
+    position: relative;
+}
+
+.menuItem p {
+    right: 3rem;
+    font-size: 1.2rem;
+    position: absolute;
+    float: left;
+}
+
+[data-notification-type="default"] {
+    color: blue;
+}
+
+[data-notification-type="urgent"] {
+    color: red;
+}
