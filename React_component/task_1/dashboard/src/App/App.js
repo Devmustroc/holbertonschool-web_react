@@ -10,43 +10,20 @@ import './App.css';
 
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLoggedIn: this.props.isLoggedIn
-        };
-    }
-
-    componentDidMount() {
-        window.addEventListener('keydown', this.handleKeyDown);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('keydown', this.handleKeyDown);
-    }
-
-    handlkeKeyDown = (event) => {
-        if (event.ctrKey && event.key === 'h') {
-            alert('Logging you out');
-            this.props.logOut();
-        }
-    }
-
-    render() {
+  render() {
       const {isLogged} = this.props;
-      this.isLoggedIn = true;
-      const footerCopyright = `${getFooterCopy(true)} - ${getFullYear()}`;
-
+      const footerCopyright = `${getFooterCopy(true)} - ${getFullYear()}`
       const listCourses = [
-            {id: 1, name: 'ES6', credit: 60},
-            {id: 2, name: 'Webpack', credit: 20},
-            {id: 3, name: 'React', credit: 40}
-      ];
+          {id: 1, name: 'ES6', credit: '60'},
+          {id: 2, name: 'Webpack', credit: '20'},
+          {id: 3, name: 'React', credit: '40'}
+      ]
       const listNotifications = [
-            {id: 1, type: 'default', value: 'New course available'},
-            {id: 2, type: 'urgent', value: 'New resume available'},
-            {id: 3, type: 'urgent', html: {__html: getLatestNotification()}}
+          {id: 1, type: "default", value: "New course available"},
+          {id: 2, type: "urgent", value: "New resume available"},
+          {id: 3, html: {__html: getLatestNotification()}, type: "urgent"}
       ];
+
       return (
           <>
               <div className="App">
@@ -71,13 +48,11 @@ class App extends Component {
 }
 
 App.defaultProps = {
-    isLoggedIn: PropTypes.bool,
-    logOut: PropTypes.func,
+    isLoggedIn: false
 };
 
 App.defaultProps = {
-    isLoggedIn: true,
-    logOut: () => {},
+    isLoggedIn: PropTypes.bool
 };
 
 export default App;

@@ -1,9 +1,10 @@
-import { shallow } from 'enzyme';
 import React from 'react';
-import App from './App';
+import { shallow, mount } from '@wojtekmaj/enzyme-adapter-react-17';
 import Login from '../Login/Login';
+import App from './App';
 
 
+// shallow render app component
 describe('<App />', () => {
     it('Tests that App renders without crashing', () => {
         const wrapper = shallow(<App />);
@@ -31,14 +32,32 @@ describe('<App />', () => {
     })
 });
 
+
+// describe case when isLoggedIn is true
 describe('<App />', () => {
     it('Tests that the Login component is not rendered', () => {
-        const wrapper = shallow(<App isLoggedIn={false} />);
-        expect(wrapper.find('Login').length).toBe(0);
+        const wrapper = shallow(<App isLoggedIn={true} />);
+        expect(wrapper.contains(<Login />)).toBe(false);
     })
 
     it('Tests that CourseList component is rendered', () => {
-        const wrapper = shallow(<App isLoggedIn={true} />);
+        const wrapper = shallow(<App isLoggedIn />);
         expect(wrapper.find('CourseList').length).toBe(1);
     })
-});
+
+    it(`Verifies that alert is called when ctrl-h is pressed`, () => {
+        const AlertSpy = jest.spyOn(window, 'alert');
+        const wrapper = mount(<App isLoggedIn />);
+        wrapper.instance().keyDownHandler({ keyCode: 72, ctrlKey: true });
+        expect(AlertSpy).toHaveBeenCalledWith('Logging you out');
+        wrapper.unmount();
+    })
+
+    it(`Verifies that logOut function is called when ctrl-h is pressed`, () => {
+        const ConsoleSpy = jest.spyOn(global.console, 'log');
+        const wrapper = mount(<App isLoggedIn />);
+        wrapper.instance().keyDownHandler({ keyCode: 72, ctrlKey: true });
+        expect(ConsoleSpy).toHaveBeenCalledWith('logOut function console log for testing');
+        wrapper.unmount();
+    })
+})
