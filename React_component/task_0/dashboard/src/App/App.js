@@ -34,7 +34,6 @@ class App extends Component {
 
     render() {
       const {isLogged} = this.props;
-      this.isLoggedIn = true;
       const footerCopyright = `${getFooterCopy(true)} - ${getFullYear()}`;
 
       const listCourses = [
@@ -71,13 +70,13 @@ class App extends Component {
 }
 
 App.defaultProps = {
-    isLoggedIn: PropTypes.bool,
-    logOut: PropTypes.func,
+    isLoggedIn: true,
+    logOut: () => {},
 };
 
 App.defaultProps = {
-    isLoggedIn: true,
-    logOut: () => {},
+    isLoggedIn: PropTypes.bool,
+    logOut: PropTypes.func,
 };
 
 export default App;
