@@ -1,51 +1,73 @@
-import React from 'react';
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import Login from "../Login/Login";
-import { getFullYear, getFooterCopy } from '../utils/utils';
-import Notification from "../Notifications/Notifications";
-import CourseList from "../CourseList/CourseList";
-import PropTypes from "prop-types";
-import './App.css';
+import React, { Component } from 'react'
+import Notifications from '../Notifications/Notifications'
+import { getLatestNotification } from '../utils/utils'
+import Login from '../Login/Login'
+import Header from '../Header/Header'
+import Footer from '../Footer/Footer'
+import CourseList from '../CourseList/CourseList'
+import propTypes from 'prop-types'
 
 
-function App({ isLoggedIn }) {
-    const footerCopyright = `${getFooterCopy(true)} - ${getFullYear()}`
-    return (
-        <>
-            <div className="App">
-                <div className="header-wrapper">
-                    <div className="App-header">
-                        <Header />
-                    </div>
-                    <Notification />
-                </div>
-                <div className="line"></div>
-                <div className="App-body">
-                    {isLoggedIn ? <CourseList /> : <Login />}
-                </div>
-                <div className="line"></div>
-                <div className="App-footer">
-                <Footer text={footerCopyright}/>
-                </div>
-            </div>
-        </>
-
-    );
+const App = ({ isLoggedIn }) => {
+	return (
+		<div className="App">
+			<Notifications listNotifications={listNotifications} />
+			<Header />
+			<div className="App-body">
+				{isLoggedIn ? <CourseList listCourses={listCourses} /> : <Login />}
+			</div>
+			<div className="App-footer">
+				<Footer />
+			</div>
+		</div>
+	)
 }
 
 const listCourses = [
-    {id: 1, name: 'ES6', credit: 60},
-    {id: 2, name: 'Webpack', credit: 20},
-    {id: 3, name: 'React', credit: 40},
-];
+{
+		id: 1,
+		name: 'ES6',
+		credit: '60'
+	},
+	{
+		id: 2,
+		name: 'Webpack',
+		credit: '20'
+	},
+	{
+		id: 3,
+		name: 'React',
+		credit: '40'
+	}
+]
+
+const listNotifications = [
+	{
+		id: 1,
+		type: "default",
+		value: "New course available"
+	},
+	{
+		id: 2,
+		type: "urgent",
+		value: "New resume available"
+	},
+	{
+		id: 3,
+		html: {
+			__html: getLatestNotification()
+		},
+		type: "urgent",
+	}
+]
+
 
 App.defaultProps = {
-    isLoggedIn: true
-};
+	isLoggedIn: false
+}
 
-App.defaultProps = {
-    isLoggedIn: PropTypes.bool
-};
+App.propTypes = {
+	isLoggedIn: propTypes.bool
+}
 
-export default App;
+export default App
