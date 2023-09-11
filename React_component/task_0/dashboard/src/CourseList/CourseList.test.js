@@ -1,17 +1,16 @@
-import { shallow } from 'enzyme';
 import React from 'react';
-import CourseList from './CourseList';
+import { shallow } from 'enzyme';
+import CourseList from "./CourseList";
 
-
-// shallow render CourseList component
 describe('<CourseList />', () => {
-	it(`Renders CourseList component without crashing`, () => {
-		const wrapper = shallow(<CourseList />);
-		expect(wrapper.exists()).toBe(true);
-	})
+    it('Tests that CourseList renders without crashing', () => {
+        const wrapper = shallow(<CourseList />);
+        expect(wrapper.exists()).toBe(true);
+    });
 
-	it(`Renders several CourseListRow Components`, () => {
-		const wrapper = shallow(<CourseList />);
-		expect(wrapper.find('CourseListRow').length).toBe(2);
-	})
-})
+    it('Check that it renders the 5 different rowsCheck ' +
+        'that it renders the 5 different rows', () => {
+        const wrapper = shallow(<CourseList />);
+        expect(wrapper.find('CourseListRow').length).toBe(5);
+    });
+});

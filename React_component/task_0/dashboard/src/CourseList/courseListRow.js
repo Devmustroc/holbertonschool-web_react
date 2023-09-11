@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from "prop-types";
 import './CourseListRow.css';
-import prototype from "prop-types";
 
 function CourseListRow({ isHeader, textFirstCell, textSecondCell}) {
 
@@ -37,10 +36,7 @@ CourseListRow.defaultProps = {
 CourseListRow.propTypes = {
     isHeader: PropTypes.bool,
     textFirstCell: PropTypes.string.isRequired,
-    textSecondCell: PropTypes.oneOfType([
-        prototype.string,
-        prototype.number,
-    ])
+    textSecondCell: PropTypes.string
 };
 
 export default CourseListRow

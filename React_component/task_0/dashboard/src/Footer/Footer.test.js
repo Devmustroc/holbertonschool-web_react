@@ -3,15 +3,13 @@ import React from 'react';
 import Footer from './Footer';
 
 
-// shallow render footer component
 describe('<Footer />', () => {
-	it('Tests that Footer renders without crashing', () => {
-		const wrapper = shallow(<Footer />);
-		expect(wrapper.exists()).toBe(true);
-	})
-
-	it('Contains the text "Copyright"', () => {
-		const wrapper = shallow(<Footer />);
-		expect(wrapper.text()).toContain('Copyright');
-	})
+    it('renders a <Footer /> component', () => {
+        const wrapper = shallow(<Footer />);
+        expect(wrapper).toHaveLength(1);
+        });
+        it('renders a <Footer /> component and checks contents', () => {
+        const wrapper = shallow(<Footer />);
+        expect(wrapper.find('p').text()).toEqual('\"2023 - Holberton School\"');
+    });
 });
