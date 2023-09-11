@@ -24,7 +24,6 @@ const Notification = ({ displayDrawer }) => {
                         <NotificationItem type="urgent" html={{ __html: getLatestNotification() }} />
                     </ul>
                 </div>
-
             </div>
             )}
         </div>

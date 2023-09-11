@@ -1,17 +1,28 @@
 import React from 'react';
-import prototype from 'prop-types';
+import PropTypes from 'prop-types';
 
-const NotificationItem = ({ type, value, html }) => {
-    if ((type && value) && (typeof type === 'string' && typeof value === 'string') && (!html)) return(<li data-notification-type={type}>{value}</li>)
-    if ((!type) && (html) && (html.__html)) return(<li data-notification-type="default" dangerouslySetInnerHTML={html}></li>)
-    if ((type) && (html) && (html.__html)) return(<li data-notification-type={type} dangerouslySetInnerHTML={html}></li>)
-    return(<li data-notification-type="default">NotificationItem: invalid props</li>)
+export default class NotificationItem extends React.Component {
+    render() {
+        return (
+            <li data-notification-type={this.props.type} dangerouslySetInnerHTML={this.props.html} onClick={() => this.props.markAsRead(this.props.id)}>
+                {this.props.value}
+            </li>
+        );
+    }
+}
+
+NotificationItem.propTypes = {
+    html: PropTypes.shape({
+        __html: PropTypes.string
+    }),
+    type: PropTypes.string.isRequired,
+    markAsRead: PropTypes.func,
+    id: PropTypes.number
 };
 
 NotificationItem.defaultProps = {
-    type: prototype.string,
-    value: prototype.string,
-    html: prototype.shape({ __html: prototype.string })
+    type: 'default',
+    html: null,
+    markAsRead: () => {},
+    id: 0
 };
-
-export default NotificationItem;
