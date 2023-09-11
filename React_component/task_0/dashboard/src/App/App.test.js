@@ -44,4 +44,4 @@ describe('<App />', () => {
 		const wrapper = shallow(<App isLoggedIn />);
 		expect(wrapper.find('CourseList').length).toBe(1);
 	})
-})
+});
