@@ -18,18 +18,16 @@ class App extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener('keydown', this.handleKeyDown);
+        window.addEventListener('keydown', (event) => {
+            if (event.ctrKey && event.key === 'h') {
+                alert('Logging you out');
+                this.props.logOut();
+            }
+        });
     }
 
     componentWillUnmount() {
-        window.removeEventListener('keydown', this.handleKeyDown);
-    }
-
-    handlkeKeyDown = (event) => {
-        if (event.ctrKey && event.key === 'h') {
-            alert('Logging you out');
-            this.props.logOut();
-        }
+        window.removeEventListener('keydown', (event) => {});
     }
 
     render() {
@@ -53,7 +51,7 @@ class App extends Component {
                       <div className="App-header">
                           <Header />
                       </div>
-                      <Notification />
+                      <Notification listNotification={listCourses}/>
                   </div>
                   <div className="line"></div>
                   <div className="App-body">
