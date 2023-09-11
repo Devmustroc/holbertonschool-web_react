@@ -36,10 +36,7 @@ CourseListRow.defaultProps = {
 CourseListRow.propTypes = {
     isHeader: PropTypes.bool,
     textFirstCell: PropTypes.string.isRequired,
-    textSecondCell: propTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-    ])
+    textSecondCell: PropTypes.string
 };
 
 export default CourseListRow

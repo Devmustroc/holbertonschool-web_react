@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Notifications from './Notifications';
-import NotificationItem from './NotificationItem';
+
 
 
 describe('<Notifications />', () => {
@@ -26,18 +26,24 @@ describe('<Notifications />', () => {
     })
 
     it('Tests that menuItem is rendered when displayDrawer is true', () => {
-        const wrapper = shallow(<Notifications displayDrawer />);
+        const wrapper = shallow(<Notifications displayDrawer listNotifications={[]} />);
         expect(wrapper.find('.menuItem').length).toBe(1);
     })
 
     it('Tests that the div Notifications is rendered when displayDrawer is true', () => {
-        const wrapper = shallow(<Notifications displayDrawer />);
-        expect(wrapper.find('.Notifications').length).toBe(1);
+        const wrapper = shallow(<Notifications displayDrawer listNotifications={[]} />);
+        wrapper.update()
+        const item = wrapper.find('div.Notifications');
+        expect(item.length).toBe(1);
     })
 
-    it ('test to verify that Notifications renders correctly' +
-        ' if you pass an empty array or if you don’t pass the listNotifications property', () => {
+    it('Tests when passing empty array', () => {
+        const wrapper = shallow(<Notifications notifications={[]} />);
+        expect(wrapper.find('.NotificationItem').length).toBe(0);
+    })
+
+    it('Tests when passing NO array', () => {
         const wrapper = shallow(<Notifications />);
-        expect(wrapper.find(NotificationItem).length).toBe(3);
+        expect(wrapper.find('.NotificationItem').length).toBe(0);
     })
 });

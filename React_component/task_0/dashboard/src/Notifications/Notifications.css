@@ -3,7 +3,7 @@
 }
 
 .Notifications {
-	border: 1px solid var(--primar-color);
+	border: 1px dashed var(--primar-color);
 	padding: 1rem;
 }
 

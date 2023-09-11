@@ -48,7 +48,7 @@ const Notification = ({ displayDrawer, listNotifications }) => {
 
 
 Notification.defaultProps = {
-	displayDrawer: false
+	displayDrawer: true
 }
 
 Notification.propTypes = {

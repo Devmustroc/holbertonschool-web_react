@@ -11,8 +11,11 @@ import propTypes from 'prop-types'
 const App = ({ isLoggedIn }) => {
 	return (
 		<div className="App">
-			<Notifications listNotifications={listNotifications} />
-			<Header />
+			<div className="header-wrapper">
+				<Notifications listNotifications={listNotifications} />
+				<Header />
+			</div>
+
 			<div className="App-body">
 				{isLoggedIn ? <CourseList listCourses={listCourses} /> : <Login />}
 			</div>
@@ -63,7 +66,7 @@ const listNotifications = [
 
 
 App.defaultProps = {
-	isLoggedIn: false
+	isLoggedIn: true
 }
 
 App.propTypes = {
