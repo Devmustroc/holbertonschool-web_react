@@ -1,6 +1,6 @@
 import React from 'react';
 import BodySection from './BodySection';
-import { shallow, mount } from '../../config/setupTests';
+import { shallow, mount } from '@wojtekmaj/enzyme-adapter-react-17';
 import BodySectionWithMarginBottom from './BodySectionWithMarginBottom';
 
 describe('BodySectionWithMarginBottom', () => {

@@ -1,5 +1,5 @@
-import { shallow, mount } from '../../config/setupTests';
 import React from 'react';
+import { shallow, mount } from '@wojtekmaj/enzyme-adapter-react-17';
 import BodySection from './BodySection';
 
 describe('<BodySection />', () => {

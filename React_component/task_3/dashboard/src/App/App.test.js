@@ -1,4 +1,4 @@
-import { shallow } from 'enzyme';
+import { shallow } from '@wojtekmaj/enzyme-adapter-react-17';
 import React from 'react';
 import App from './App';
 import Login from '../Login/Login';

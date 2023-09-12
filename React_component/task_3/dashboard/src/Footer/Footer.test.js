@@ -1,5 +1,5 @@
-import { shallow } from 'enzyme';
 import React from 'react';
+import { shallow } from '@wojtekmaj/enzyme-adapter-react-17';
 import Footer from './Footer';
 
 

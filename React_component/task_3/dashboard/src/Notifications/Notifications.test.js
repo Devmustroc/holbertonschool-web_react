@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow } from '@wojtekmaj/enzyme-adapter-react-17';
 import Notifications from './Notifications';
 
 
