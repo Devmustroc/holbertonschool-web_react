@@ -8,6 +8,7 @@ import CourseList from '../CourseList/CourseList';
 import Notification from "../Notifications/Notifications";
 import PropTypes from "prop-types";
 import './App.css';
+import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
 
 const listCourses = [
     { id: 1, name: 'ES6', credit: 60 },
@@ -60,7 +61,18 @@ class App extends React.Component {
                     </div>
                     <div className="line"></div>
                     <div className="App-body">
-                        {this.isLoggedIn ? <CourseList listCourse={listCourses}/> : <Login />}
+                        {
+                            isLoggedIn ?
+                                <BodySectionWithMarginBottom title="Course list">
+                                    <CourseList listCourses={listCourses} />
+                                </BodySectionWithMarginBottom> :
+                                <BodySectionWithMarginBottom title="Log in to continue">
+                                    <Login />
+                                </BodySectionWithMarginBottom>
+                        }
+                        <BodySectionWithMarginBottom title="News from the School">
+                            <p>Some random text</p>
+                        </BodySectionWithMarginBottom>
                     </div>
                     <div className="line"></div>
                     <div className="App-footer">
