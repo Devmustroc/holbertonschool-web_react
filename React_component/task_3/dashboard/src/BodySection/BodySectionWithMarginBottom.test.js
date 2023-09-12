@@ -1,6 +1,6 @@
-import { shallow, mount } from '../../config/setupTests';
 import React from 'react';
 import BodySection from './BodySection';
+import { shallow, mount } from '../../config/setupTests';
 import BodySectionWithMarginBottom from './BodySectionWithMarginBottom';
 
 describe('BodySectionWithMarginBottom', () => {
