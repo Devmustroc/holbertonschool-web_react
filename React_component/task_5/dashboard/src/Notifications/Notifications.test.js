@@ -3,7 +3,6 @@ import { shallow } from 'enzyme';
 import Notifications from './Notifications';
 
 
-
 describe('<Notifications />', () => {
     it('tests that Notifications renders without crashing', () => {
         const wrapper = shallow(<Notifications />);
@@ -46,4 +45,44 @@ describe('<Notifications />', () => {
         const wrapper = shallow(<Notifications />);
         expect(wrapper.find('.NotificationItem').length).toBe(0);
     })
+});
+
+describe('Test the NotificationItem Component', () => {
+    let listNotifications;
+    beforeEach(() => {
+        listNotifications = [
+            {
+                id: 1,
+                type: 'default',
+                value: 'New course available'
+            },
+            {
+                id: 2,
+                type: 'urgent',
+                value: 'New resume available'
+            },
+            {
+                id: 3,
+                type: 'urgent',
+                html: {__html: '<u>test</u>'}
+            }
+        ];
+    });
+    it('Tests that Notifications renders 3 list items', () => {
+        const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications}/>);
+        expect(wrapper.find('NotificationItem')).toHaveLength(3);
+    });
+
+    it('Tests that Notifications renders the good text', () => {
+        const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotification} />);
+        const p = wrapper.find('.Notifications p');
+        expect(wrapper.find('.Notifications p')).toHaveLength(1);
+        expect(p.text()).toEqual('Here is the list of notifications');
+    });
+
+    it('Tests that the first NotificationItem element renders the right HTML', () => {
+        const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
+        const p = wrapper.find('.Notifications NotificationItem:first-child');
+        expect(p.html()).toEqual('<li data-notification-type="default">New course available</li>');
+    });
 });
