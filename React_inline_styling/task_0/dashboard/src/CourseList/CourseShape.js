@@ -6,5 +6,4 @@ const CourseShape = propTypes.shape({
 	  credits: propTypes.number.isRequired,
 })
 
-
 export default CourseShape;
