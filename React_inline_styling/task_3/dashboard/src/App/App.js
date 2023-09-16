@@ -57,7 +57,7 @@ class App extends React.Component {
   handleKey(e) {
     const isCtrl = e.ctrlKey;
 
-    if (isCtrl && e.keyCode == 72) {
+    if (isCtrl && e.keyCode === 72) {
       e.preventDefault();
       alert('Logging you out');
       this.props.logOut();
@@ -82,14 +82,14 @@ class App extends React.Component {
             {this.props.isLoggedIn ? (
               <BodySectionWithMarginBottom title="Course list ">
                 <CourseList listCourses={listCourses}/>
-              </BodySectionWithMarginBottom> 
+              </BodySectionWithMarginBottom>
             ) : (
               <BodySectionWithMarginBottom title="Log in to continue">
                 <Login text="Login to access the full dashboard" />
               </BodySectionWithMarginBottom>
             )}
             <BodySection title="News from the School">
-              <p>This is some random text</p>
+              <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi architecto asperiores at culpa dignissimos doloremque dolorum earum enim error est facilis illo iusto, mollitia non possimus quam repudiandae ut?</span><span>Accusantium consequuntur delectus dicta dignissimos eos error eveniet ex incidunt, ipsam iure laboriosam laborum magni nobis officiis optio pariatur ratione repellendus, repudiandae soluta velit! Accusantium alias corporis error fugiat quos.</span></p>
             </BodySection>
           </div>
           <div className={css(styles.footer)}>
