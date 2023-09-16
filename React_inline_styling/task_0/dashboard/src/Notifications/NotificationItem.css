@@ -1,0 +1,10 @@
+.btn-notification {
+    position: absolute;
+    background: transparent;
+    border: none;
+    right: 20px;
+}
+img {
+    height: 15px;
+    width: 15px;
+}
