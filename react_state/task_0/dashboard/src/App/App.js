@@ -51,7 +51,20 @@ const listNotifications = [
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+        displayDrawer: false
+    };
     this.handleKey = this.handleKey.bind(this);
+    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
+    this.handleHideDrawer = this.handleHideDrawer.bind(this);
+  }
+
+  handleDisplayDrawer() {
+    this.setState({ displayDrawer: true });
+  }
+
+  handleHideDrawer() {
+    this.setState({ displayDrawer: false });
   }
 
   handleKey(e) {
@@ -64,7 +77,9 @@ class App extends React.Component {
     }
   }
   componentDidMount() {
-    window.addEventListener('keydown', this.handleKey);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('keydown', this.handleKey);
+    }
   }
 
   componentWillUnmount() {
@@ -75,7 +90,12 @@ class App extends React.Component {
     const footerText = `Copyright ${getFullYear()} - ${getFooterCopy(true)}`
     return (
       <>
-        <Notifications listNotifications={listNotifications}/>
+        <Notifications
+            displayDrawer={this.state.displayDrawer}
+            handleDisplayDrawer={this.handleDisplayDrawer}
+            handleHideDrawer={this.handleHideDrawer}
+            listNotifications={listNotifications}
+        />
         <div className={css(styles.app)}>
           <Header text='School dashboard' src={logo} alt='Holberton logo'/>
           <div className={css(styles.body)}>

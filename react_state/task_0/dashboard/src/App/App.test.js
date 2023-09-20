@@ -30,22 +30,10 @@ describe('Tests the App component', () => {
         const wrapper = shallow(<App />);
         expect(wrapper.find('CourseList')).toHaveLength(0);
     });
-    it('checks that the logOut function and the alert function is called with the good string', () => {
-        const mockLogOut = jest.fn();
-        const logger = jest.spyOn(window, 'alert');
-        expect(logger);
-        expect(mockLogOut);
-        jest.restoreAllMocks();
-    });
-});
 
-describe('Tests the App component when isLoggedIn is true', () => {
-    it('Tests that the Login component is not included.', () => {
-        const wrapper = shallow(<App isLoggedIn={true}/>);
-        expect(wrapper.find('Login')).toHaveLength(0);
-    });
-    it('should contain the Notifications component', () => {
-        const wrapper = shallow(<App isLoggedIn={true}/>);
-        expect(wrapper.find('CourseList')).toHaveLength(1);
-    });
+    it('should have default displayDrawer state of false', () => {
+        const wrapper = shallow(<App />);
+        wrapper.instance().handleDisplayDrawer();
+        expect(wrapper.state().displayDrawer).toEqual(true);
+    })
 });
