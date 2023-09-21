@@ -16,6 +16,7 @@ class Notifications extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.displayDrawer !== nextProps.displayDrawer) return true;
     if (this.props.listNotifications.length < nextProps.listNotifications.length) return true;
     return false;
   }
@@ -36,15 +37,16 @@ class Notifications extends React.Component {
       content = this.props.listNotifications.map((notification) =>
           <NotificationItem key={notification.id} type={notification.type} value={notification.value} html={notification.html} markAsRead={this.markAsRead} id={notification.id}/>);
     }
+    const { handleDisplayDrawer, handleHideDrawer } = this.props;
     return (
         <>
           <div className={menuItemStyle}>
-            Your notifications
+            <p onClick={handleDisplayDrawer}>Your notifications</p>
           </div>
           {this.props.displayDrawer ? (
               <div className={css(styles.notifications, styles.small)} id="Notifications">
                 {this.props.listNotifications.length === 0 ? content : (<p>Here is the list of notifications</p>)}
-                <button aria-label='Close' onClick={() => console.log('Close button has been clicked')} style={buttonStyle}>
+                <button aria-label='Close' onClick={handleHideDrawer} style={buttonStyle}>
                   <img src={closeIcon} alt='Close icon' width={10}/>
                 </button>
                 {this.props.listNotifications.length === 0 ? null : (<ul className={css(styles.noPadding)}>{content}</ul>)}
@@ -57,12 +59,16 @@ class Notifications extends React.Component {
 
 Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
-  listNotifications: PropTypes.arrayOf(NotificationItemShape)
+  listNotifications: PropTypes.arrayOf(NotificationItemShape),
+  handleDisplayDrawer: PropTypes.func,
+  handleHideDrawer: PropTypes.func
 };
 
 Notifications.defaultProps = {
   displayDrawer: false,
-  listNotifications: []
+  listNotifications: [],
+  handleDisplayDrawer: () => {},
+  handleHideDrawer: () => {}
 };
 
 const opacityAnimationFrames = {

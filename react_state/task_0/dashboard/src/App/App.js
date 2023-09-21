@@ -13,50 +13,36 @@ import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 
 const listCourses = [
-  {
-    id: 1,
-    name: 'ES6',
-    credit: 60
-  },
-  {
-    id: 2,
-    name: 'Webpack',
-    credit: 20
-  },
-  {
-    id: 3,
-    name: 'React',
-    credit: 40
-  }
+  { id: 1, name: 'ES6', credit: 60 },
+  { id: 2, name: 'Webpack', credit: 20 },
+  { id: 3, name: 'React', credit: 40 }
 ];
 
 const listNotifications = [
-  {
-    id: 1,
-    type: 'default',
-    value: 'New course available'
-  },
-  {
-    id: 2,
-    type: 'urgent',
-    value: 'New resume available'
-  },
-  {
-    id: 3,
-    type: 'urgent',
-    html: {__html: getLatestNotification()}
-  }
+  { id: 1, type: 'default', value: 'New course available' },
+  { id: 2, type: 'urgent', value: 'New resume available' },
+  { id: 3, type: 'urgent', html: {__html: getLatestNotification()} }
 ];
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-        displayDrawer: false
-    };
     this.handleKey = this.handleKey.bind(this);
     this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
     this.handleHideDrawer = this.handleHideDrawer.bind(this);
+    this.state = {
+      displayDrawer: false
+    };
+  }
+
+  handleKey(e) {
+    const isCtrl = e.ctrlKey;
+
+    if (isCtrl && e.key === 'h') {
+      e.preventDefault();
+      alert('Logging you out');
+      this.props.logOut();
+    }
   }
 
   handleDisplayDrawer() {
@@ -67,19 +53,8 @@ class App extends React.Component {
     this.setState({ displayDrawer: false });
   }
 
-  handleKey(e) {
-    const isCtrl = e.ctrlKey;
-
-    if (isCtrl && e.keyCode === 72) {
-      e.preventDefault();
-      alert('Logging you out');
-      this.props.logOut();
-    }
-  }
   componentDidMount() {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('keydown', this.handleKey);
-    }
+    window.addEventListener('keydown', this.handleKey);
   }
 
   componentWillUnmount() {
@@ -88,35 +63,34 @@ class App extends React.Component {
 
   render() {
     const footerText = `Copyright ${getFullYear()} - ${getFooterCopy(true)}`
+    const { displayDrawer } = this.state;
     return (
-      <>
-        <Notifications
-            displayDrawer={this.state.displayDrawer}
-            handleDisplayDrawer={this.handleDisplayDrawer}
-            handleHideDrawer={this.handleHideDrawer}
-            listNotifications={listNotifications}
-        />
-        <div className={css(styles.app)}>
-          <Header text='School dashboard' src={logo} alt='Holberton logo'/>
-          <div className={css(styles.body)}>
-            {this.props.isLoggedIn ? (
-              <BodySectionWithMarginBottom title="Course list ">
-                <CourseList listCourses={listCourses}/>
-              </BodySectionWithMarginBottom>
-            ) : (
-              <BodySectionWithMarginBottom title="Log in to continue">
-                <Login text="Login to access the full dashboard" />
-              </BodySectionWithMarginBottom>
-            )}
-            <BodySection title="News from the School">
-              <p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi architecto asperiores at culpa dignissimos doloremque dolorum earum enim error est facilis illo iusto, mollitia non possimus quam repudiandae ut?</span><span>Accusantium consequuntur delectus dicta dignissimos eos error eveniet ex incidunt, ipsam iure laboriosam laborum magni nobis officiis optio pariatur ratione repellendus, repudiandae soluta velit! Accusantium alias corporis error fugiat quos.</span></p>
-            </BodySection>
+        <>
+          <Notifications listNotifications={listNotifications}
+                         displayDrawer={displayDrawer}
+                         handleDisplayDrawer={this.handleDisplayDrawer}
+                         handleHideDrawer={this.handleHideDrawer}/>
+          <div className={css(styles.app)}>
+            <Header text='School dashboard' src={logo} alt='Holberton logo'/>
+            <div className={css(styles.body)}>
+              {this.props.isLoggedIn ? (
+                  <BodySectionWithMarginBottom title="Course list ">
+                    <CourseList listCourses={listCourses}/>
+                  </BodySectionWithMarginBottom>
+              ) : (
+                  <BodySectionWithMarginBottom title="Log in to continue">
+                    <Login text="Login to access the full dashboard" />
+                  </BodySectionWithMarginBottom>
+              )}
+              <BodySection title="News from the School">
+                <p>This is some random text</p>
+              </BodySection>
+            </div>
+            <div className={css(styles.footer)}>
+              <Footer text={footerText} />
+            </div>
           </div>
-          <div className={css(styles.footer)}>
-            <Footer text={footerText} />
-          </div>
-        </div>
-      </>
+        </>
 
     );
   }
@@ -151,7 +125,7 @@ App.propTypes = {
 };
 
 App.defaultProps = {
-  isLoggedIn: true,
+  isLoggedIn: false,
   logOut: () => {}
 };
 
