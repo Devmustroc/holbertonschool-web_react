@@ -1,5 +1,6 @@
 import getAllNotificationsByUser from "./notifications";
 
+
 describe('getAllNotificationsByUser', () => {
 	it('should return specific notifications for a user', () => {
 		const userId = '5debd764a7c57c7839d722e9';
