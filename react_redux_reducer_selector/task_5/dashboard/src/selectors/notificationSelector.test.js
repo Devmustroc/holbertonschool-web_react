@@ -34,4 +34,5 @@ describe("notificationSelector", () => {
 		});
 		expect(filterTypeSelected(state)).toEqual("urgent");
 	});
+
 });
