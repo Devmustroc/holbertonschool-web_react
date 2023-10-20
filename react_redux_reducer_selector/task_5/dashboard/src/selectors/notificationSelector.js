@@ -5,3 +5,4 @@ const getUnreadNotifications = (state) => {
 const filterTypeSelected = (state) => state.get("filter");
 
 export { getNotifications, getUnreadNotifications, filterTypeSelected };
+
