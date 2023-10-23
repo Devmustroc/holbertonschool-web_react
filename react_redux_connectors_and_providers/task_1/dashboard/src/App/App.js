@@ -1,166 +1,169 @@
-import React, { Component } from 'react'
-import { StyleSheet, css } from 'aphrodite'
-import { AppProvider } from './AppContext'
-import Notifications from '../Notifications/Notifications'
-import { connect } from 'react-redux'
-import { getLatestNotification } from '../utils/utils'
-import Login from '../Login/Login'
-import Header from '../Header/Header'
-import Footer from '../Footer/Footer'
-import CourseList from '../CourseList/CourseList'
-import BodySection from '../BodySection/BodySection'
-import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom'
+import React from 'react';
+import { StyleSheet, css } from 'aphrodite';
+import logo from '../assets/holberton_logo.jpg';
+import { getFullYear, getFooterCopy } from '../utils/utils';
+import Notifications from '../Notifications/Notifications';
+import { getLatestNotification } from '../utils/utils';
+import Login from '../Login/Login';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import CourseList from '../CourseList/CourseList';
+import BodySection from '../BodySection/BodySection';
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
+import { user, logOut } from './AppContext';
+import AppContext from './AppContext';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { displayNotificationDrawer, hideNotificationDrawer } from '../actions/uiActionCreators';
 
+const listCourses = [
+	{ id: 1, name: 'ES6', credit: 60 },
+	{ id: 2, name: 'Webpack', credit: 20 },
+	{ id: 3, name: 'React', credit: 40 }
+];
 
-class App extends Component {
+const listNotifications = [
+	{ id: 1, type: 'default', value: 'New course available' },
+	{ id: 2, type: 'urgent', value: 'New resume available' },
+	{ id: 3, type: 'urgent', html: {__html: getLatestNotification()} }
+];
+
+class App extends React.Component {
 	constructor(props) {
 		super(props);
+		this.handleKey = this.handleKey.bind(this);
+		this.logIn = this.logIn.bind(this);
+		this.logOut = this.logOut.bind(this);
+		this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
 		this.state = {
-			displayDrawer: false,
-			user: {
-				email: '',
-				password: '',
-				isLoggedIn: false
-			},
+			user,
 			logOut: this.logOut,
-			listNotifications: [
-				{ id: 1, type: "default", value: "New course available" },
-				{ id: 2, type: "urgent", value: "New resume available" },
-				{ id: 3, html: { __html: getLatestNotification() }, type: "urgent" }
-			]
-		}
-	};
-
-
-	componentDidMount() {
-		window.addEventListener('keydown', this.keyDownHandler);
+			listNotifications
+		};
 	}
 
-	componentWillUnmount() {
-		window.removeEventListener('keydown', this.keyDownHandler);
-	}
+	handleKey(e) {
+		const isCtrl = e.ctrlKey;
 
-	keyDownHandler = (e) => {
-		if (e.keyCode === 72 && e.ctrlKey) {
+		if (isCtrl && e.key === 'h') {
+			e.preventDefault();
 			alert('Logging you out');
 			this.state.logOut();
 		}
 	}
 
-	handleDisplayDrawer = () => {
-		this.setState({ displayDrawer: true })
+	logIn(email, password) {
+		this.setState({user: { email, password, isLoggedIn: true}});
 	}
 
-	handleHideDrawer = () => {
-		this.setState({ displayDrawer: false })
+	logOut() {
+		this.setState({user});
 	}
 
-	logIn = (email, password) => {
-		this.setState({
-			user: {
-				email,
-				password,
-				isLoggedIn: true
-			}
-		})
+	markNotificationAsRead(id) {
+		const updatedList = this.state.listNotifications.filter((notification) => {
+			return notification.id !== id;
+		});
+		this.setState({listNotifications: updatedList});
 	}
 
-	logOut = () => {
-		this.setState({
-			user: {
-				email: '',
-				password: '',
-				isLoggedIn: false
-			}
-		})
+	componentDidMount() {
+		window.addEventListener('keydown', this.handleKey);
 	}
 
-	markNotificationAsRead = (id) => {
-		// removes the notification from the array
-		const listNotifications = this.state.listNotifications.filter(notification => notification.id !== id);
-		this.setState({ listNotifications });
+	componentWillUnmount() {
+		window.removeEventListener('keydown', this.handleKey);
 	}
 
 	render() {
-		const {
-			displayDrawer,
-			listNotifications
-		} = this.state;
-
-		const listCourses = [
-			{ id: 1, name: 'ES6', credit: '60' },
-			{ id: 2, name: 'Webpack', credit: '20' },
-			{ id: 3, name: 'React', credit: '40' }
-		]
-
+		const footerText = `Copyright ${getFullYear()} - ${getFooterCopy(true)}`;
+		const value = {user: this.state.user, logOut: this.state.logOut};
+		const { listNotifications } = this.state;
+		const { displayDrawer, displayNotificationDrawer, hideNotificationDrawer } = this.props;
 		return (
-			<AppProvider value={{
-				displayDrawer: displayDrawer,
-				handleDisplayDrawer: this.handleDisplayDrawer,
-				handleHideDrawer: this.handleHideDrawer,
-				user: this.state.user,
-				logIn: this.logIn,
-				logOut: this.logOut
-			}}>
-				<div className={css(bodyStyles.App)}>
-					<Notifications
-						listNotifications={listNotifications}
-						displayDrawer={displayDrawer}
-						handleDisplayDrawer={this.handleDisplayDrawer}
-						handleHideDrawer={this.handleHideDrawer}
-						markNotificationAsRead={this.markNotificationAsRead}
-					/>
-					<Header />
-					<div className="App-body">
-						{this.state.user.isLoggedIn
-							?
-							<BodySectionWithMarginBottom title="Course list">
-								<CourseList listCourses={listCourses} />
+			<AppContext.Provider value={value}>
+				<Notifications listNotifications={listNotifications}
+				               displayDrawer={displayDrawer}
+				               handleDisplayDrawer={displayNotificationDrawer}
+				               handleHideDrawer={hideNotificationDrawer}
+				               markNotificationAsRead={this.markNotificationAsRead}/>
+				<div className={css(styles.app)}>
+					<Header text='School dashboard' src={logo} alt='Holberton logo'/>
+					<div className={css(styles.body)}>
+						{this.state.user.isLoggedIn ? (
+							<BodySectionWithMarginBottom title="Course list ">
+								<CourseList listCourses={listCourses}/>
 							</BodySectionWithMarginBottom>
-							:
-							<BodySectionWithMarginBottom title="Login in to continue">
-								<Login logIn={this.logIn} />
+						) : (
+							<BodySectionWithMarginBottom title="Log in to continue">
+								<Login text="Login to access the full dashboard" logIn={this.logIn}/>
 							</BodySectionWithMarginBottom>
-						}
-						<BodySection title="News from the School"><p><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto aut culpa earum expedita facere id ipsum laboriosam mollitia, nam non nulla, odit quidem rem tempore totam vel vitae voluptatem.</span><span>Aliquam asperiores beatae, debitis, eos hic laboriosam nulla obcaecati pariatur quibusdam quod rerum sunt unde, veniam? Amet assumenda expedita, fugit harum, iste numquam pariatur, quibusdam quis quisquam vero vitae voluptatum.</span></p></BodySection>
+						)}
+						<BodySection title="News from the School">
+							<p>This is some random text</p>
+						</BodySection>
 					</div>
-					<div className={css(footerStyles.Footer)}>
-						<Footer />
+					<div className={css(styles.footer)}>
+						<Footer text={footerText} />
 					</div>
 				</div>
-			</AppProvider>
-		)
+			</AppContext.Provider>
+
+		);
 	}
 }
-const mapStateToProps = (state) => {
+
+export function mapStateToProps(state) {
 	return {
-		isLoggedIn: state.get('isUserLoggedIn')
-	}
-};
-export default connect(mapStateToProps)(App);
+		isLoggedIn: state.get('isUserLoggedIn'),
+		displayDrawer: state.get('isNotificationDrawerVisible')
+	};
+}
 
+export function mapDispatchToProps(dispatch) {
+	return {
+		displayNotificationDrawer: () => dispatch(displayNotificationDrawer()),
+		hideNotificationDrawer: () => dispatch(hideNotificationDrawer())
+	};
+}
 
-const primaryColor = '#E11D3F';
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 
-const bodyStyles = StyleSheet.create({
-	App: {
-		backgroundColor: '#ffffff',
+const styles = StyleSheet.create({
+	app: {
+		fontFamily: 'sans-serif',
 		display: 'flex',
 		flexDirection: 'column',
-	}
-});
-
-const footerStyles = StyleSheet.create({
-	Footer: {
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'center',
-		alignItems: 'center',
+		minHeight: '100%'
+	},
+	body: {
+		marginTop: '1rem',
+		minHeight: '100%',
+		padding: '0 3rem'
+	},
+	footer: {
 		textAlign: 'center',
-		borderTop: `3px solid ${primaryColor}`,
-		padding: '1rem',
 		fontStyle: 'italic',
+		position: 'absolute',
+		bottom: 0,
+		right: 0,
+		left: 0,
+		borderTop: 'solid #e11d3f'
 	}
 });
 
-export { App, mapStateToProps };
+App.propTypes = {
+	isLoggedIn: PropTypes.bool,
+	displayDrawer: PropTypes.bool,
+	displayNotificationDrawer: PropTypes.func,
+	hideNotificationDrawer: PropTypes.func
+};
+
+App.defaultProps = {
+	isLoggedIn: false,
+	displayDrawer: false,
+	displayNotificationDrawer: () => {},
+	hideNotificationDrawer: () => {}
+};
+
+export { App };
