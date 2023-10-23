@@ -1,52 +1,65 @@
-import React, { useContext } from 'react'
-import { StyleSheet, css } from 'aphrodite'
-import AppContext from '../App/AppContext'
-import logo from '../assets/logo.jpg'
+import React from 'react';
+import { StyleSheet, css } from 'aphrodite';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../actions/uiActionCreators';
 
-
-export default function Header() {
-	const { user, logOut } = useContext(AppContext);
-
-	if (!user.isLoggedIn) {
+class Header extends React.Component {
+	render() {
 		return (
-			<header className={css(headerStyles.appHeader)}>
-				<img src={logo} className={css(headerStyles.appLogo)} alt="logo" />
-				<h1>School dashboard</h1>
-			</header>
-		)
-	} else {
-		return (
-			<React.Fragment>
-				<header className={css(headerStyles.appHeader)}>
-					<img src={logo} className={css(headerStyles.appLogo)} alt="logo" />
-					<h1>School dashboard</h1>
+			<>
+				<header className={css(styles.appHeader)}>
+					<img src={this.props.src} alt={this.props.alt} className={css(styles.appHeaderImg)}/>
+					<h1>{this.props.text}</h1>
 				</header>
-				<div className={css(headerStyles.greeting)} id="logoutSection">
-					<h2>Welcome
-						<strong> {user.email} </strong>
-						{/* if user clicks on logout button, calls logOut function in AppContext */}
-						<em><a href="#" onClick={logOut}>(logout)</a></em>
-					</h2>
-				</div>
-			</React.Fragment>
-		)
+				{this.props.user ? (
+					<section id='logoutSection'>
+						Welcome <strong>{this.props.user.email}</strong> <a onClick={() => {this.props.logout()}}><em>(logout)</em></a>
+					</section>
+				) : null}
+
+			</>
+		);
 	}
 }
 
-
-const primaryColor = '#E11D3F';
-
-const headerStyles = StyleSheet.create({
+const styles = StyleSheet.create({
 	appHeader: {
 		display: 'flex',
-		flexDirection: 'row',
 		alignItems: 'center',
-		color: `${primaryColor}`,
-		borderBottom: `1px solid ${primaryColor}`,
+		justifyContent: 'flex-start',
+		fontSize: '1.2rem',
+		color: '#e11d3f',
+		bordeBottom: 'solid #e11d3f'
 	},
 
-	appLogo: {
-		height: '200px',
-		width: '200px'
-	},
+	appHeaderImg: {
+		width: 250
+	}
 });
+
+export function mapStateToProps(state) {
+	return {
+		user: state.get('user')
+	};
+}
+
+export function mapDispatchToProps(dispatch) {
+	return {
+		logout: () => dispatch(logout())
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
+
+Header.propTypes = {
+	user: PropTypes.object,
+	logout: PropTypes.func
+}
+
+Header.defaultProps = {
+	user: null,
+	logout: () => {}
+}
+
+export { Header };
