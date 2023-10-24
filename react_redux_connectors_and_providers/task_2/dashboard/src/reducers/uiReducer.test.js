@@ -1,29 +1,32 @@
-import {
-	LOGIN,
-	LOGIN_SUCCESS,
-	LOGIN_FAILURE,
-	LOGOUT,
-	DISPLAY_NOTIFICATION_DRAWER,
-	HIDE_NOTIFICATION_DRAWER
-} from '../actions/uiActionTypes'
-import uiReducer, { initialState } from './uiReducer'
-// import fetchMock from 'fetch-mock'
+import { selectCourse } from "../actions/courseActionCreators";
+import { displayNotificationDrawer, login } from "../actions/uiActionCreators";
+import { appInitialState, uiReducer } from "./uiReducer";
 
-
-describe('uiReducer', () => {
-	it(`Tests that state returned by uiReducer equals initial state when no action is passed`, () => {
-		const state = uiReducer(undefined, {});
-		expect(state).toEqual(initialState);
-	})
-
-	it(`Tests that state returned by uiReducer equals initial state when action 'SELECT_COURSE'
-  is passed`, () => {
-		const state = uiReducer(undefined, { type: 'SELECT_COURSE' });
-		expect(state).toEqual(initialState);
-	})
-
-	it(`Tests that action 'DISPLAY_NOTIFICATION_DRAWER' returns state with isNotificationDrawerVisible`, () => {
-		const state = uiReducer(undefined, { type: DISPLAY_NOTIFICATION_DRAWER });
-		expect(state.isNotificationDrawerVisible).toEqual(true);
-	})
-})
+describe('Test suite for uiReducer', () => {
+	it('Tests uiReducer when no action is passed', () => {
+		expect(uiReducer(undefined, {}).toJS()).toEqual(appInitialState);
+	});
+	it('Tests uiReducer when the action SELECT_COURSE is passed', () => {
+		const action = selectCourse();
+		expect(uiReducer(undefined, action).toJS()).toEqual(appInitialState);
+	});
+	it('Tests uiReducer when the action DISPLAY_NOTIFICATION_DRAWER is passed', () => {
+		const expectedState = {
+			...appInitialState,
+			isNotificationDrawerVisible: true
+		};
+		const action = displayNotificationDrawer();
+		expect(uiReducer(undefined, action).toJS()).toEqual(expectedState);
+	});
+	it('Tests uiReducer when the action LOGIN is passed', () => {
+		const expectedState = {
+			...appInitialState,
+			user: {
+				email: 'hello@world.com',
+				password: 'Test123!'
+			}
+		};
+		const action = login('hello@world.com', 'Test123!');
+		expect(uiReducer(undefined, action).toJS()).toEqual(expectedState);
+	});
+});
