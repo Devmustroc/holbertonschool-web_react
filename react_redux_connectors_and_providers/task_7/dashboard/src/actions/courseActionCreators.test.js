@@ -1,17 +1,38 @@
-import { selectCourse, unselectCourse } from "./courseActionCreators";
+import { selectCourse, unSelectCourse, fetchCourses } from "./courseActionCreators";
+import { SELECT_COURSE, UNSELECT_COURSE, SET_COURSES, FETCH_COURSE_SUCCESS } from "./courseActionTypes";
+import configureMockStore from 'redux-mock-store';
+import fetchMock from 'fetch-mock';
+import thunk from 'redux-thunk';
 
+const mockStore = configureMockStore([thunk]);
 
-describe("selectCourse", () => {
-  it(`Tests that selectCourse's dispatch is called with the correct action`, () => {
-    const dispatch = jest.fn();
-    const courseId = "1";
+describe('Action creators tests', () => {
+  afterEach(() => {
+    fetchMock.restore();
+  });
+  it('Tests the selectCourse action', () => {
+    expect(selectCourse(1)).toEqual({ type: SELECT_COURSE, index: 1 });
+  });
+  it('Tests the unSelectCourse action', () => {
+    expect(unSelectCourse(1)).toEqual({ type: UNSELECT_COURSE, index: 1 });
+  });
+  it('Tests that the fetch is working correctly', () => {
+    const store = mockStore({});
 
-    selectCourse(courseId)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith({
-      type: "SELECT_COURSE",
-      courseId,
+    fetchMock.get('http://localhost:8564/courses.json', {
+      status: 200,
+      body: [],
     });
-  }
-  );
+
+    const expectedActions = [
+      {
+        type: FETCH_COURSE_SUCCESS,
+        data: []
+      }
+    ];
+
+    return store.dispatch(fetchCourses()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
 });
